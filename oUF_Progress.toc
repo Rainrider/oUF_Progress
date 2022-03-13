@@ -1,0 +1,14 @@
+## Interface: 90200
+## Title: oUF Progress
+## Author: Rainrider
+## Version: @project-version@
+## Notes: Progress bar for oUF layouts
+## RequiredDeps: oUF
+
+init.lua
+modes/artifact.lua
+modes/azerite.lua
+modes/experience.lua
+modes/honor.lua
+modes/reputation.lua
+core.lua
