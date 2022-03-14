@@ -8,6 +8,8 @@ ignore = {
 	'212/self', -- unused argument self
 }
 
+files['definitions.lua'] = {ignore = {'212', '241'}}
+
 read_globals = {
 	'debugstack',
 	'geterrorhandler',
