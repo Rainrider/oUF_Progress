@@ -62,15 +62,13 @@ function reputation:Load(element)
 	-- gains reputation
 	hooksecurefunc('SetWatchedFactionIndex', function (selectedIndex)
 		local isCurrentMode = self == element.mode
+		local function handler()
+			element.__owner:UnregisterEvent('UPDATE_FACTION', handler)
+			ns.CallbackRegistry:TriggerEvent('OnVisibilityChanged', self, self:Visibility())
+		end
 
-		if (isCurrentMode and selectedIndex == 0) then
-			ns.CallbackRegistry:TriggerEvent('OnVisibilityChanged', self, false)
-		elseif (not isCurrentMode and selectedIndex > 0) then
-			-- just wait a bit for the faction info to become available
-			-- this is ghetto but still better than event registration juggling
-			C_Timer.After(1, function ()
-				ns.CallbackRegistry:TriggerEvent('OnVisibilityChanged', self, true)
-			end)
+		if (isCurrentMode and selectedIndex == 0 or not isCurrentMode and selectedIndex > 0) then
+			element.__owner:RegisterEvent('UPDATE_FACTION', handler, true)
 		end
 	end)
 end
@@ -87,7 +85,9 @@ end
 function reputation:UpdateColor(element, _, _, _, standingId)
 	local color = element.__owner.colors.reaction[standingId]
 
-	element:SetStatusBarColor(color[1], color[2], color[3])
+	if (color) then
+		element:SetStatusBarColor(color[1], color[2], color[3])
+	end
 end
 
 ---@param element Progress

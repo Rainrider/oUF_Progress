@@ -10,7 +10,7 @@ artifact.events = {
 	PLAYER_ENTERING_WORLD = true,
 }
 artifact.visibilityEvents = {
-	UNIT_INVENTORY_CHANGED = false,
+	PLAYER_EQUIPMENT_CHANGED = true,
 }
 
 ---@param spentPoints integer

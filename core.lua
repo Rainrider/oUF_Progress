@@ -39,6 +39,8 @@ local function Update(frame, event, unit)
 	local element = frame.Progress
 	local mode = element.mode
 
+	if (not mode) then return end
+
 	if (element.PreUpdate) then
 		element:PreUpdate(unit)
 	end
@@ -92,11 +94,8 @@ local function ToggleEvents(element, on)
 end
 
 ---@param element Progress
----@param mode Mode
----@param doNotUpdate boolean
+---@param mode? Mode
 local function SetMode(element, mode)
-	if (not mode) then return end -- TODO: error?
-
 	if (element.mode and element.mode.Deactivate) then
 		element.mode:Deactivate(element)
 	end
@@ -104,6 +103,12 @@ local function SetMode(element, mode)
 	ToggleEvents(element, false)
 
 	element.mode = mode
+
+	if (not mode) then
+		return element:Hide()
+	end
+
+	element:Show()
 	element:SetStatusBarColor(mode.color:GetRGB())
 
 	if (mode.Activate) then
@@ -117,37 +122,38 @@ end
 
 ---@param element Progress
 ---@param mode Mode
+---@param index? integer
 ---@return Mode nextMode
 ---@return integer nextIndex
-local function GetNextMode(element, index)
-	local modeIndex = index or select(2, ResolveMode(element, element.mode.name))
+local function GetNextMode(element, mode, index)
+	local modeIndex = index or select(2, ResolveMode(element, mode.name))
 	local nextIndex = modeIndex % #element.modes + 1
 
 	return element.modes[nextIndex], nextIndex
 end
 
 ---@param element Progress
----@param mode? Mode
----@param on? boolean
+---@param mode Mode
+---@param on boolean
 local function SetNextVisibleMode(element, mode, on)
-	if (mode and element.mode ~= mode) then
+	local isCurrentMode = element.mode == mode
+	if (mode and not isCurrentMode) then
 		if (on and mode:Visibility()) then
 			return SetMode(element, mode)
 		end
 	end
 
-	if (mode and on and element.mode == mode) then return end
+	-- re-showing the current mode ar hiding another one
+	if (mode and on and isCurrentMode or not (on or isCurrentMode)) then return end
 
 	local currentMode = element.mode
 	local remainingModes = #element.modes
-	local index = not currentMode and 1 or nil
-	local nextMode
+	local nextMode, index
 
 	while (remainingModes > 0) do
-		nextMode, index = GetNextMode(element, index)
+		nextMode, index = GetNextMode(element, mode, index)
 
 		if (nextMode:Visibility()) then
-			element:Show()
 			if (nextMode == currentMode) then
 				printWarning()
 			end
@@ -160,7 +166,7 @@ local function SetNextVisibleMode(element, mode, on)
 
 	if (remainingModes == 0) then
 		printWarning()
-		element:Hide()
+		SetMode(element, nil)
 	end
 end
 
@@ -187,7 +193,7 @@ end
 ---@param button MouseButton
 local function OnMouseUp(element, button)
 	if (button == 'LeftButton') then
-		SetNextVisibleMode(element)
+		SetNextVisibleMode(element, element.mode)
 		element.mode:UpdateTooltip(element)
 		GameTooltip:Show()
 	else

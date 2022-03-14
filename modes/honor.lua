@@ -52,7 +52,7 @@ function honor:UpdateTooltip(element)
 	)
 end
 
----@param event WowEvent
+---@param event? WowEvent
 ---@return boolean
 function honor:Visibility(event)
 	local isInActivePvP = not event or C_PvP.IsActiveBattlefield() or IsInActiveWorldPVP()

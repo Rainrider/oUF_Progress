@@ -10,7 +10,7 @@ azerite.events = {
 	PLAYER_ENTERING_WORLD = true,
 }
 azerite.visibilityEvents = {
-	UNIT_INVENTORY_CHANGED = true,
+	PLAYER_EQUIPMENT_CHANGED = true,
 }
 
 function azerite:CancelItemLoadCallback()
