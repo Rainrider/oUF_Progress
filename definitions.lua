@@ -15,14 +15,16 @@
 
 ---@alias ModeName
 ---| '"artifact"'
+---| '"azerite"'
 ---| '"experience"'
 ---| '"honor"'
 ---| '"reputation"'
 
----@class Progress --: StatusBar
+---@class Progress : StatusBar
 ---@field __owner any
----@field mode Mode
----@field modes table<number, Mode>
+---@field mode Mode @The currently active mode
+---@field defaultMode? ModeName
+---@field modes Mode[]
 ---@field tooltipAnchor TooltipAnchor
 ---@field inAlpha number
 ---@field outAlpha number
@@ -30,7 +32,7 @@
 ---@class Mode
 ---@field name ModeName
 ---@field color ColorMixin @Used to color the bar when the mode is activated
----@field events table<string, boolean> @The events used to update the bar values. Disabled when the mode is not active
+---@field events table<string, boolean> @The events used to update the bar values. Disabled when the mode is inactive
 local Mode = {}
 
 ---The events used to activate the mode. Disabled when the mode is active.
@@ -82,7 +84,7 @@ function Mode:OnMouseUp(element, button) end
 ---@param min integer @The minimum bar value
 ---@param max integer @The maximum bar value
 ---@param level integer @The current level
----@param rest table @The rest of the values returned by Mode#GetValues in preserved order
+---@param rest any[] @The rest of the values returned by Mode#GetValues in preserved order
 function Mode:PostUpdate(element, value, min, max, level, rest) end
 
 ---Called to update the bar color after the bar values have been set.
@@ -93,7 +95,7 @@ function Mode:PostUpdate(element, value, min, max, level, rest) end
 ---@param min integer @The minimum bar value
 ---@param max integer @The maximum bar value
 ---@param level integer @The current level
----@param rest table @The rest of the values returned by Mode#GetValues in preserved order
+---@param rest any[] @The rest of the values returned by Mode#GetValues in preserved order
 function Mode:UpdateColor(element, value, min, max, level, rest) end
 
 ---Called to update the mode tooltip if the element is mouse-enabled and hovered.
@@ -101,10 +103,10 @@ function Mode:UpdateColor(element, value, min, max, level, rest) end
 function Mode:UpdateTooltip(element) end
 
 ---Called to deside on whether the mode should become or stay visible.
----If Mode#visibilityEvents is are not empty, this method will be called from
----the event handler and a `true` return will lead to the mode becoming the
----active one.
----If this is the current active mode, this method will be called before the
----element has been updated.
+---If `Mode#visibilityEvents` is not empty, this method will be called from
+---the event handler and `true` will activate inactive modes while `false`
+---will deactive active modes.
+---@param event WowEvent
+---@param ... any @The rest of the event arguments
 ---@return boolean
-function Mode:Visibility() end
+function Mode:Visibility(event, ...) end

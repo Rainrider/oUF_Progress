@@ -11,14 +11,14 @@ reputation.events = {
 }
 
 ---@param _ Progress
----@param unit string
----@return number value
----@return number min
----@return number max
----@return number standingId
+---@param unit WowUnit
+---@return integer value
+---@return integer min
+---@return integer max
+---@return integer standingId
 ---@return string standingText
 ---@return string name
----@return number factionId
+---@return integer factionId
 ---@return boolean hasPendingReward
 function reputation:GetValues(_, unit)
 	local name, standingId, min, max, value, factionId = GetWatchedFactionInfo()
@@ -56,6 +56,7 @@ function reputation:GetValues(_, unit)
 	return value, 0, max, standingId, standingText, name, factionId, hasPendingReward
 end
 
+---@param element Progress
 function reputation:Load(element)
 	-- we do this instead of using FACTION_UPDATE as a visiblity event
 	-- because else the reputation bar will be displayed every time the player
@@ -78,10 +79,10 @@ function reputation:OnMouseUp()
 end
 
 ---@param element Progress
----@param value number
----@param min number
----@param max number
----@param standingId number
+---@param _ integer
+---@param _ integer
+---@param _ integer
+---@param standingId integer
 function reputation:UpdateColor(element, _, _, _, standingId)
 	local color = element.__owner.colors.reaction[standingId]
 

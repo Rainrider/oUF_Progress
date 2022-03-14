@@ -1,6 +1,7 @@
 local _, ns = ...
 ns = ns.__Progress
 
+---@type Mode
 local honor = {}
 
 honor.name = 'honor'
@@ -15,11 +16,11 @@ honor.visibilityEvents = {
 }
 
 ---@param _ Progress
----@param unit string
----@return number value
----@return number min
----@return number max
----@return number level
+---@param unit WowUnit
+---@return integer value
+---@return integer min
+---@return integer max
+---@return integer level
 function honor:GetValues(_, unit)
 	local value = UnitHonor(unit)
 	local max = UnitHonorMax(unit)

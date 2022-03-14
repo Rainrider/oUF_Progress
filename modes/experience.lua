@@ -5,8 +5,8 @@ ns = ns.__Progress
 local experience = {}
 
 experience.name = 'experience'
-experience.color = CreateColor(0.58, 0, 0.55, 0.5)
-experience.restedColor = CreateColor(0, 0.39, 0.88, 0.5)
+experience.color = CreateColor(0.58, 0, 0.55, 0.7)
+experience.restedColor = CreateColor(0, 0.39, 0.88, 0.7)
 experience.events = {
 	PLAYER_XP_UPDATE = true,
 	UPDATE_EXHAUSTION = true,
@@ -39,12 +39,12 @@ function experience:Deactivate(element)
 end
 
 ---@param _ Progress
----@param unit string
----@return number value
----@return number min
----@return number max
----@return number level
----@return number rested
+---@param unit WowUnit
+---@return integer value
+---@return integer min
+---@return integer max
+---@return integer level
+---@return integer rested
 function experience:GetValues(_, unit)
 	local value = UnitXP(unit)
 	local max = UnitXPMax(unit)
@@ -55,12 +55,12 @@ function experience:GetValues(_, unit)
 end
 
 ---@param element Progress
----@param value number
----@param _ number
----@param max number
----@param rest table
+---@param value integer
+---@param _ integer
+---@param max integer
+---@param rest any[]
 function experience:PostUpdate(element, value, _, max, _, rest)
-	local rested = unpack(rest)
+	local rested = rest[1]
 	local missingXp = max - value
 	if (rested > missingXp) then
 		rested = missingXp
@@ -70,6 +70,11 @@ function experience:PostUpdate(element, value, _, max, _, rest)
 	element.Rested:SetWidth(math.max(width, 0.1))
 end
 
+---@param element Progress
+---@param _ integer
+---@param _ integer
+---@param _ integer
+---@param rest any[]
 function experience:UpdateColor(element, _, _, _, _, rest)
 	local rested = rest[1]
 

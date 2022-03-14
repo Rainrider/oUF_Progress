@@ -2,23 +2,15 @@ local _, ns = ...
 local oUF = ns.oUF or _G.oUF
 ns = ns.__Progress
 
----@class Progress : StatusBar
----@field __owner any
----@field mode Mode
----@field modes table<number, Mode>
----@field tooltipAnchor string @todo better type-hint
----@field inAlpha number
----@field outAlpha number
-
----@param value number
----@param min number
----@param max number
----@param level number
+---@param value integer
+---@param min integer
+---@param max integer
+---@param level integer
 ---@vararg any
----@return number @The current bar value
----@return number @The minimum bar value
----@return number @The maximum bar value
----@return number @The current level
+---@return integer @The current bar value
+---@return integer @The minimum bar value
+---@return integer @The maximum bar value
+---@return integer @The current level
 ---@return table @The rest of passed arguments
 local function extract(value, min, max, level, ...)
 	return value, min, max, level, {...}
@@ -29,7 +21,7 @@ local function printWarning()
 end
 
 ---@param frame any
----@param event string
+---@param event WowEvent
 ---@param unit WowUnit
 local function Update(frame, event, unit)
 	unit = unit or frame.unit
@@ -70,7 +62,7 @@ end
 ---@param element Progress
 ---@param modeName string
 ---@return Mode
----@return number
+---@return integer
 local function ResolveMode(element, modeName)
 	for index, mode in next, element.modes do
 		if mode.name == modeName then
@@ -121,11 +113,15 @@ local function SetMode(element, mode)
 end
 
 ---@param element Progress
----@param mode Mode
+---@param mode? Mode
 ---@param index? integer
 ---@return Mode nextMode
 ---@return integer nextIndex
 local function GetNextMode(element, mode, index)
+	if (not mode and not index) then
+		error('Either mode or index must be provided')
+	end
+
 	local modeIndex = index or select(2, ResolveMode(element, mode.name))
 	local nextIndex = modeIndex % #element.modes + 1
 
@@ -173,7 +169,6 @@ end
 ---@param element Progress
 local function OnEnter(element)
 	element:SetAlpha(element.inAlpha)
-	---@type GameTooltip
 	GameTooltip:SetOwner(element, element.tooltipAnchor)
 	element.mode:UpdateTooltip(element)
 	GameTooltip:Show()

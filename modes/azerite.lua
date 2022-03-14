@@ -1,6 +1,7 @@
 local _, ns = ...
 ns = ns.__Progress
 
+---@type Mode
 local azerite = {}
 
 azerite.name = 'azerite'
@@ -20,6 +21,11 @@ function azerite:CancelItemLoadCallback()
 	end
 end
 
+---@return integer @azerite power
+---@return integer @min
+---@return integer @max
+---@return integer @azerite level
+---@return ItemLocationMixin @Hearh of Azeroth item location
 function azerite:GetValues()
 	local azeriteItemLocation = C_AzeriteItem.FindActiveAzeriteItem()
 	local value, max = C_AzeriteItem.GetAzeriteItemXPInfo(azeriteItemLocation)
@@ -43,16 +49,17 @@ function azerite:UpdateTooltip()
 	end)
 end
 
+---@return boolean
 function azerite:Visibility()
 	local isMaxLevel = C_AzeriteItem.IsAzeriteItemAtMaxLevel()
 
 	if (isMaxLevel) then return false end
 
-	local azeriteItem = C_AzeriteItem.FindActiveAzeriteItem()
+	local azeriteItemLocation = C_AzeriteItem.FindActiveAzeriteItem()
 
-	return azeriteItem
-		and azeriteItem:IsEquipmentSlot()
-		and C_AzeriteItem.IsAzeriteItemEnabled(azeriteItem)
+	return azeriteItemLocation
+		and azeriteItemLocation:IsEquipmentSlot()
+		and C_AzeriteItem.IsAzeriteItemEnabled(azeriteItemLocation)
 end
 
 ns.modes[#ns.modes + 1] = azerite

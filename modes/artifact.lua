@@ -1,6 +1,7 @@
 local _, ns = ...
 ns = ns.__Progress
 
+---@type Mode
 local artifact = {}
 
 artifact.name = 'artifact'
@@ -34,13 +35,13 @@ local function GetAvailablePoints(spentPoints, unspentPower, tier)
 	return availablePoints, unspentPower, threshold
 end
 
----@return integer
----@return integer
----@return integer
----@return integer
----@return string
----@return integer
----@return integer
+---@return integer @artifact power
+---@return integer @min
+---@return integer @max
+---@return integer @artifact level
+---@return string @artifact name
+---@return integer @unspent power
+---@return integer @available points
 function artifact:GetValues()
 	local _, _, name, _, unspentPower, spentPoints, _, _, _, _, _, _, tier = C_ArtifactUI.GetEquippedArtifactInfo()
 	local availablePoints, power, threshold = GetAvailablePoints(spentPoints, unspentPower, tier)
@@ -76,6 +77,7 @@ function artifact:UpdateTooltip()
 	)
 end
 
+---@return boolean
 function artifact:Visibility()
 	return HasArtifactEquipped()
 		and not C_ArtifactUI.IsEquippedArtifactMaxed()
