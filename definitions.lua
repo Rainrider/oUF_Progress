@@ -24,6 +24,7 @@
 ---@field __owner any
 ---@field mode Mode @The currently active mode
 ---@field defaultMode? ModeName
+---@field infoText? FontString
 ---@field modes Mode[]
 ---@field tooltipAnchor TooltipAnchor
 ---@field inAlpha number
@@ -64,6 +65,11 @@ function Mode:CancelItemLoadCallback() end
 ---@return integer @The maximum bar value
 ---@return integer @The current level
 function Mode:GetValues(element, unit) end
+
+---Returns a string to be showed on the progress bar
+---_(Optional)_
+---@return string
+function Mode:Info() end
 
 ---Called when the mode is initially loaded.
 ---_(Optional)_

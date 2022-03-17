@@ -73,6 +73,37 @@ local function ResolveMode(element, modeName)
 	end
 end
 
+local function HideInfoText(element)
+	if (not element.infoText) then return end
+
+	element.__owner:Untag(element.infoText)
+	element.infoText:Hide()
+end
+
+---@param element Progress
+local function ShowInfoText(element)
+	if (not element.mode.Info) then return end
+
+	local events = ''
+	local sharedEvents = ''
+
+	for event, isUnitless in next, element.mode.events do
+		if (isUnitless) then
+			sharedEvents = sharedEvents .. event .. ' '
+		else
+			events = events .. event .. ' '
+		end
+	end
+
+	oUF.Tags.Methods['progress:info'] = element.mode.Info
+	oUF.Tags.Events['progress:info'] = events ~= '' and events or nil
+	oUF.Tags.SharedEvents['progress:info'] = sharedEvents ~= '' and sharedEvents or nil
+
+	element.infoText:Show()
+	element.__owner:Tag(element.infoText, '[progress:info]')
+	element.infoText:UpdateTag()
+end
+
 ---@param element Progress
 ---@param on boolean
 local function ToggleEvents(element, on)
@@ -94,6 +125,7 @@ local function SetMode(element, mode)
 		element.mode:Deactivate(element)
 	end
 
+	HideInfoText(element)
 	ToggleEvents(element, false)
 
 	element.mode = mode
@@ -110,6 +142,7 @@ local function SetMode(element, mode)
 	end
 
 	ToggleEvents(element, true)
+	ShowInfoText(element)
 
 	element:ForceUpdate()
 end
@@ -212,7 +245,7 @@ end
 ---@param frame any
 ---@param event WowEvent
 ---@param unit WowUnit
-local function Visibility(frame, event, unit)
+local function Visibility(frame, event)
 	---@type Progress
 	local element = frame.Progress
 

@@ -83,4 +83,7 @@ read_globals = {
 	'UnitSex',
 	'UnitXP',
 	'UnitXPMax',
+
+	-- oUF
+	'_FRAME',
 }

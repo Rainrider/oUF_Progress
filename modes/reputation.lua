@@ -56,6 +56,13 @@ function reputation:GetValues(_, unit)
 	return value, 0, max, standingId, standingText, name, factionId, hasPendingReward
 end
 
+function reputation.Info()
+	local element = _FRAME.Progress
+	local value, _, max = element.mode:GetValues(element, 'player')
+
+	return ('%s / %s (%d%%)'):format(AbbreviateNumbers(value), AbbreviateNumbers(max), value / max * 100 + 0.5)
+end
+
 ---@param element Progress
 function reputation:Load(element)
 	-- we do this instead of using FACTION_UPDATE as a visiblity event
