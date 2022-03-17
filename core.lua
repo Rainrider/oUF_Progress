@@ -2,6 +2,8 @@ local _, ns = ...
 local oUF = ns.oUF or _G.oUF
 ns = ns.__Progress
 
+local Path
+
 ---@param value integer
 ---@param min integer
 ---@param max integer
@@ -81,7 +83,7 @@ local function ToggleEvents(element, on)
 	local Toggle = on and frame.RegisterEvent or frame.UnregisterEvent
 
 	for event, isUnitless in next, mode.events do
-		Toggle(frame, event, Update, isUnitless)
+		Toggle(frame, event, Path, isUnitless)
 	end
 end
 
@@ -189,8 +191,10 @@ end
 local function OnMouseUp(element, button)
 	if (button == 'LeftButton') then
 		SetNextVisibleMode(element, element.mode)
-		element.mode:UpdateTooltip(element)
-		GameTooltip:Show()
+		if (element.mode) then
+			element.mode:UpdateTooltip(element)
+			GameTooltip:Show()
+		end
 	else
 		if (element.mode.OnMouseUp) then
 			element.mode:OnMouseUp(element, button)
@@ -198,16 +202,43 @@ local function OnMouseUp(element, button)
 	end
 end
 
-local function Path(frame, ...)
+Path = function (frame, ...)
 	---@type Progress
 	local element = frame.Progress
 
 	return (element.Override or Update)(frame, ...)
 end
 
+---@param frame any
+---@param event WowEvent
+---@param unit WowUnit
+local function Visibility(frame, event, unit)
+	---@type Progress
+	local element = frame.Progress
+
+	if (UnitHasVehiclePlayerFrameUI('player')) then
+		element.Show = element.Hide
+
+		print('Hiding progress element')
+		if (element:IsShown()) then
+			ToggleEvents(element, false)
+			element:Hide()
+		end
+	else
+		element.Show = nil
+
+		if (element.mode and not element:IsShown()) then
+			element:Show()
+			ToggleEvents(element, true)
+		else
+			Path(frame, event, 'player')
+		end
+	end
+end
+
 ---@param element Progress
 local function ForceUpdate(element)
-	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
+	return Visibility(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
 
 ---@param element Progress
@@ -271,6 +302,8 @@ local function Enable(self, unit)
 	end
 
 	element:SetNextVisibleMode(ResolveMode(element, element.defaultMode), true)
+
+	return true
 end
 
 local function Disable(self)
@@ -280,4 +313,4 @@ local function Disable(self)
 	ToggleEvents(element, false)
 end
 
-oUF:AddElement('Progress', Path, Enable, Disable)
+oUF:AddElement('Progress', Visibility, Enable, Disable)

@@ -75,6 +75,7 @@ read_globals = {
 	'IsXPUserDisabled',
 	'SocketInventoryItem',
 	'ToggleCharacter',
+	'UnitHasVehiclePlayerFrameUI',
 	'UnitLevel',
 	'UnitHonor',
 	'UnitHonorLevel',
