@@ -90,9 +90,8 @@ local function ShowInfoText(element)
 	for event, isUnitless in next, element.mode.events do
 		if (isUnitless) then
 			sharedEvents = sharedEvents .. event .. ' '
-		else
-			events = events .. event .. ' '
 		end
+		events = events .. event .. ' '
 	end
 
 	oUF.Tags.Methods['progress:info'] = element.mode.Info
