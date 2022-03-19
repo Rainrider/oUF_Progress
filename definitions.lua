@@ -60,10 +60,11 @@ function Mode:CancelItemLoadCallback() end
 ---@see Mode#PostUpdate
 ---@param element Progress
 ---@param unit WowUnit
----@return integer @The current bar value
----@return integer @The minimum bar value
----@return integer @The maximum bar value
----@return integer @The current level
+---@return integer value
+---@return integer min
+---@return integer max
+---@return integer level
+---@return integer|string barId
 function Mode:GetValues(element, unit) end
 
 ---Returns a string to be showed on the progress bar

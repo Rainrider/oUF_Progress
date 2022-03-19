@@ -16,9 +16,9 @@ reputation.events = {
 ---@return integer min
 ---@return integer max
 ---@return integer standingId
+---@return integer factionId
 ---@return string standingText
 ---@return string name
----@return integer factionId
 ---@return boolean hasPendingReward
 function reputation:GetValues(_, unit)
 	local name, standingId, min, max, value, factionId = GetWatchedFactionInfo()
@@ -53,7 +53,7 @@ function reputation:GetValues(_, unit)
 		value, max = 1, 1
 	end
 
-	return value, 0, max, standingId, standingText, name, factionId, hasPendingReward
+	return value, 0, max, standingId, factionId, standingText, name, hasPendingReward
 end
 
 function reputation.Info()
@@ -100,7 +100,7 @@ end
 
 ---@param element Progress
 function reputation:UpdateTooltip(element)
-	local value, _, max, standingId, standingText, name, factionId, hasPendingReward = self:GetValues(element, 'player')
+	local value, _, max, standingId, factionId, standingText, name, hasPendingReward = self:GetValues(element, 'player')
 	local rewardAtlas = hasPendingReward and ' |A:ParagonReputation_Bag:0:0:0:0|a' or ''
 	local _, description = GetFactionInfoByID(factionId)
 	local currentRank, maxRank = GetFriendshipReputationRanks(factionId)

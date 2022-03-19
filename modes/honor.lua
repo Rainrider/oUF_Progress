@@ -21,12 +21,13 @@ honor.visibilityEvents = {
 ---@return integer min
 ---@return integer max
 ---@return integer level
+---@return string barId
 function honor:GetValues(_, unit)
 	local value = UnitHonor(unit)
 	local max = UnitHonorMax(unit)
 	local level = UnitHonorLevel(unit)
 
-	return value, 0, max, level
+	return value, 0, max, level, 'honor'
 end
 
 function honor:OnMouseUp()

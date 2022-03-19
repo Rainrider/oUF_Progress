@@ -25,17 +25,18 @@ end
 ---@return integer @min
 ---@return integer @max
 ---@return integer @azerite level
+---@return integer @item id of Hearth of Azeroth
 ---@return ItemLocationMixin @Hearh of Azeroth item location
 function azerite:GetValues()
 	local azeriteItemLocation = C_AzeriteItem.FindActiveAzeriteItem()
 	local value, max = C_AzeriteItem.GetAzeriteItemXPInfo(azeriteItemLocation)
 	local level = C_AzeriteItem.GetPowerLevel(azeriteItemLocation)
 
-	return value, 0, max, level, azeriteItemLocation
+	return value, 0, max, level, 158075, azeriteItemLocation
 end
 
 function azerite:UpdateTooltip()
-	local value, _, max, level, azeriteItemLocation = self:GetValues()
+	local value, _, max, level, _, azeriteItemLocation = self:GetValues()
 	local azeriteItem = Item:CreateFromItemLocation(azeriteItemLocation)
 
 	self.itemDataLoadedCancelFunc = azeriteItem:ContinueWithCancelOnItemLoad(function ()
