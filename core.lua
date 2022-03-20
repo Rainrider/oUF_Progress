@@ -82,7 +82,7 @@ end
 
 ---@param element Progress
 local function ShowInfoText(element)
-	if (not element.mode.Info) then return end
+	if (not element.mode.info) then return end
 
 	local events = ''
 	local sharedEvents = ''
@@ -94,12 +94,13 @@ local function ShowInfoText(element)
 		events = events .. event .. ' '
 	end
 
-	oUF.Tags.Methods['progress:info'] = element.mode.Info
-	oUF.Tags.Events['progress:info'] = events ~= '' and events or nil
-	oUF.Tags.SharedEvents['progress:info'] = sharedEvents ~= '' and sharedEvents or nil
+	for tag in next, ns.tags do
+		oUF.Tags.Events[tag] = events ~= '' and events or nil
+		oUF.Tags.SharedEvents[tag] = sharedEvents ~= '' and sharedEvents or nil
+	end
 
 	element.infoText:Show()
-	element.__owner:Tag(element.infoText, '[progress:info]')
+	element.__owner:Tag(element.infoText, element.mode.info)
 	element.infoText:UpdateTag()
 end
 
@@ -251,7 +252,6 @@ local function Visibility(frame, event)
 	if (UnitHasVehiclePlayerFrameUI('player')) then
 		element.Show = element.Hide
 
-		print('Hiding progress element')
 		if (element:IsShown()) then
 			ToggleEvents(element, false)
 			element:Hide()
@@ -262,9 +262,9 @@ local function Visibility(frame, event)
 		if (element.mode and not element:IsShown()) then
 			element:Show()
 			ToggleEvents(element, true)
-		else
-			Path(frame, event, 'player')
 		end
+
+		Path(frame, event, 'player')
 	end
 end
 

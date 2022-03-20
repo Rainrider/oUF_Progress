@@ -12,6 +12,8 @@ experience.events = {
 	UPDATE_EXHAUSTION = true,
 	PLAYER_ENTERING_WORLD = true,
 }
+experience.info = '[progress:missing][ ($>progress:reps<$)]'
+experience.status = {}
 experience.visibilityEvents = {
 	DISABLE_XP_GAIN = true,
 	ENABLE_XP_GAIN = true,

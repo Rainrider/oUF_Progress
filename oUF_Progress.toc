@@ -6,6 +6,7 @@
 ## RequiredDeps: oUF
 
 init.lua
+tags.lua
 modes/artifact.lua
 modes/azerite.lua
 modes/experience.lua

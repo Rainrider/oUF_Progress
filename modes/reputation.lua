@@ -9,6 +9,8 @@ reputation.color = CreateColor(1, 1, 1)
 reputation.events = {
 	UPDATE_FACTION = true
 }
+reputation.info = '[progress:missing] [progress:reps]'
+reputation.status = {}
 
 ---@param _ Progress
 ---@param unit WowUnit
@@ -54,13 +56,6 @@ function reputation:GetValues(_, unit)
 	end
 
 	return value, 0, max, standingId, factionId, standingText, name, hasPendingReward
-end
-
-function reputation.Info()
-	local element = _FRAME.Progress
-	local value, _, max = element.mode:GetValues(element, 'player')
-
-	return ('%s / %s (%d%%)'):format(AbbreviateNumbers(value), AbbreviateNumbers(max), value / max * 100 + 0.5)
 end
 
 ---@param element Progress

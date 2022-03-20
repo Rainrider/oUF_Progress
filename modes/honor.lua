@@ -9,6 +9,8 @@ honor.color = CreateColor(1.0, 0.24, 0)
 honor.events = {
 	HONOR_XP_UPDATE = true,
 }
+honor.info = '[progress:missing] [progress:reps]'
+honor.status = {}
 honor.visibilityEvents = {
 	HONOR_LEVEL_UPDATE = true,
 	ZONE_CHANGED = true,

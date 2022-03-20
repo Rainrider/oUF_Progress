@@ -30,10 +30,19 @@
 ---@field inAlpha number
 ---@field outAlpha number
 
+---@class Status
+---@field barId integer|string
+---@field delta integer
+---@field max integer
+---@field level integer
+---@field value integer
+
 ---@class Mode
 ---@field name ModeName
 ---@field color ColorMixin @Used to color the bar when the mode is activated
 ---@field events table<string, boolean> @The events used to update the bar values. Disabled when the mode is inactive
+---@field info? string @A tag string to display on the bar
+---@field status Status
 local Mode = {}
 
 ---The events used to activate the mode. Disabled when the mode is active.
@@ -66,11 +75,6 @@ function Mode:CancelItemLoadCallback() end
 ---@return integer level
 ---@return integer|string barId
 function Mode:GetValues(element, unit) end
-
----Returns a string to be showed on the progress bar
----_(Optional)_
----@return string
-function Mode:Info() end
 
 ---Called when the mode is initially loaded.
 ---_(Optional)_

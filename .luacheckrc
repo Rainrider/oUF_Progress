@@ -83,7 +83,10 @@ read_globals = {
 	'UnitSex',
 	'UnitXP',
 	'UnitXPMax',
+}
 
-	-- oUF
-	'_FRAME',
+globals = {
+	-- oUF custom env for tags
+	_FRAME = {fields = {'Progress'}},
+	'_TAGS',
 }

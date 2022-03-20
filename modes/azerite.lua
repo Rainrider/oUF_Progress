@@ -10,6 +10,8 @@ azerite.events = {
 	AZERITE_ITEM_EXPERIENCE_CHANGED = true,
 	PLAYER_ENTERING_WORLD = true,
 }
+azerite.info = '[progress:missing] [progress:reps]'
+azerite.status = {}
 azerite.visibilityEvents = {
 	PLAYER_EQUIPMENT_CHANGED = true,
 }
