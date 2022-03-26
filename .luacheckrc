@@ -29,6 +29,9 @@ read_globals = {
 			'IsEquippedArtifactMaxed',
 		},
 	},
+	C_AzeriteEssence = {
+		fields = {'CanOpenUI'},
+	},
 	C_AzeriteItem = {
 		fields = {
 			'FindActiveAzeriteItem',
@@ -73,8 +76,10 @@ read_globals = {
 	'IsInActiveWorldPVP',
 	'IsResting',
 	'IsXPUserDisabled',
+	'ShowUIPanel',
 	'SocketInventoryItem',
 	'ToggleCharacter',
+	'UIParentLoadAddOn',
 	'UnitHasVehiclePlayerFrameUI',
 	'UnitLevel',
 	'UnitHonor',

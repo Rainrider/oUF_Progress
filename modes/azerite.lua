@@ -37,6 +37,20 @@ function azerite:GetValues()
 	return value, 0, max, level, 158075, azeriteItemLocation
 end
 
+function azerite:OnMouseUp()
+	if (not C_AzeriteEssence.CanOpenUI()) then return end
+
+	if (not _G.AzeriteEssenceUI) then
+		UIParentLoadAddOn('Blizzard_AzeriteEssenceUI')
+	end
+
+	if (not _G.AzeriteEssenceUI:IsShown()) then
+		ShowUIPanel(_G.AzeriteEssenceUI)
+	else
+		HideUIPanel(_G.AzeriteEssenceUI)
+	end
+end
+
 function azerite:UpdateTooltip()
 	local value, _, max, level, _, azeriteItemLocation = self:GetValues()
 	local azeriteItem = Item:CreateFromItemLocation(azeriteItemLocation)
