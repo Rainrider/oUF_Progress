@@ -82,6 +82,7 @@ function Mode:Load(element) end
 
 ---Handler for the `OnMouseUp` script event.
 ---Left clicks are reserved to change the current mode and won't be passed to this handler.
+---_(Optional)_
 ---@param element Progress
 ---@param button MouseButton
 function Mode:OnMouseUp(element, button) end
@@ -107,6 +108,7 @@ function Mode:PostUpdate(element, value, max, level, rest) end
 function Mode:UpdateColor(element, value, max, level, rest) end
 
 ---Called to update the mode tooltip if the element is mouse-enabled and hovered.
+---_(Optional)_
 ---@param element Progress
 function Mode:UpdateTooltip(element) end
 

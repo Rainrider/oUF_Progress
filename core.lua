@@ -202,9 +202,11 @@ end
 ---@param element Progress
 local function OnEnter(element)
 	element:SetAlpha(element.inAlpha)
-	GameTooltip:SetOwner(element, element.tooltipAnchor)
-	element.mode:UpdateTooltip(element)
-	GameTooltip:Show()
+	if (element.mode.UpdateTooltip) then
+		GameTooltip:SetOwner(element, element.tooltipAnchor)
+		element.mode:UpdateTooltip(element)
+		GameTooltip:Show()
+	end
 end
 
 ---@param element Progress
