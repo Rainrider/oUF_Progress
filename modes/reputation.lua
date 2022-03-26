@@ -1,6 +1,8 @@
 local _, ns = ...
 ns = ns.__Progress
 
+local MAX_REPUTATION_REACTION = _G.MAX_REPUTATION_REACTION
+
 ---@type Mode
 local reputation = {}
 
@@ -38,7 +40,7 @@ function reputation:GetValues(_, unit)
 			value = paragonValue % threshold
 			min = 0
 			max = threshold
-			standingId = _G.MAX_REPUTATION_REACTION + 1 -- force paragon color
+			standingId = MAX_REPUTATION_REACTION + math.ceil(paragonValue / threshold)
 			standingText = _G.PARAGON
 			hasPendingReward = rewardPending
 		end
@@ -86,7 +88,7 @@ end
 ---@param _ integer
 ---@param standingId integer
 function reputation:UpdateColor(element, _, _, _, standingId)
-	local color = element.__owner.colors.reaction[standingId]
+	local color = element.__owner.colors.reaction[math.min(standingId, MAX_REPUTATION_REACTION + 1)]
 
 	if (color) then
 		element:SetStatusBarColor(color[1], color[2], color[3])
@@ -103,7 +105,7 @@ function reputation:UpdateTooltip(element)
 	if (currentRank and maxRank and currentRank > 0 and maxRank > 0) then
 		rankText = (' (%s / %s)'):format(currentRank, maxRank)
 	end
-	local color = element.__owner.colors.reaction[standingId]
+	local color = element.__owner.colors.reaction[math.min(standingId, MAX_REPUTATION_REACTION + 1)]
 
 	GameTooltip:SetText(('%s%s'):format(name, rewardAtlas), color[1], color[2], color[3])
 	GameTooltip:AddLine(description, nil, nil, nil, true)
