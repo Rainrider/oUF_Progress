@@ -9,7 +9,7 @@ reputation.color = CreateColor(1, 1, 1)
 reputation.events = {
 	UPDATE_FACTION = true
 }
-reputation.info = '[progress:missing] [progress:reps]'
+reputation.info = '[progress:missing][ ($>progress:reps<$)]'
 reputation.status = {}
 
 ---@param _ Progress

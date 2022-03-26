@@ -10,7 +10,7 @@ artifact.events = {
 	ARTIFACT_XP_UPDATE = true,
 	PLAYER_ENTERING_WORLD = true,
 }
-artifact.info = '[progress:missing] [progress:reps]'
+artifact.info = '[progress:missing][ ($>progress:reps<$)]'
 artifact.status = {}
 artifact.visibilityEvents = {
 	PLAYER_EQUIPMENT_CHANGED = true,
