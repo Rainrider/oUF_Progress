@@ -70,7 +70,6 @@ function Mode:CancelItemLoadCallback() end
 ---@param element Progress
 ---@param unit WowUnit
 ---@return integer value
----@return integer min
 ---@return integer max
 ---@return integer level
 ---@return integer|string barId
@@ -92,22 +91,20 @@ function Mode:OnMouseUp(element, button) end
 ---@see Mode#GetValues
 ---@param element Progress
 ---@param value integer @The current bar value
----@param min integer @The minimum bar value
 ---@param max integer @The maximum bar value
 ---@param level integer @The current level
 ---@param rest any[] @The rest of the values returned by Mode#GetValues in preserved order
-function Mode:PostUpdate(element, value, min, max, level, rest) end
+function Mode:PostUpdate(element, value, max, level, rest) end
 
 ---Called to update the bar color after the bar values have been set.
 ---_(Optional)_
 ---@see Mode#GetValues
 ---@param element Progress
 ---@param value integer @The current bar value
----@param min integer @The minimum bar value
 ---@param max integer @The maximum bar value
 ---@param level integer @The current level
 ---@param rest any[] @The rest of the values returned by Mode#GetValues in preserved order
-function Mode:UpdateColor(element, value, min, max, level, rest) end
+function Mode:UpdateColor(element, value, max, level, rest) end
 
 ---Called to update the mode tooltip if the element is mouse-enabled and hovered.
 ---@param element Progress
@@ -116,8 +113,8 @@ function Mode:UpdateTooltip(element) end
 ---Called to deside on whether the mode should become or stay visible.
 ---If `Mode#visibilityEvents` is not empty, this method will be called from
 ---the event handler and `true` will activate inactive modes while `false`
----will deactive active modes.
+---will deactive active ones.
 ---@param event WowEvent
----@param ... any @The rest of the event arguments
+---@vararg any @The rest of the event arguments
 ---@return boolean
 function Mode:Visibility(event, ...) end

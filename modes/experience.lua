@@ -43,7 +43,6 @@ end
 ---@param _ Progress
 ---@param unit WowUnit
 ---@return integer value
----@return integer min
 ---@return integer max
 ---@return integer level
 ---@return string barId
@@ -54,15 +53,15 @@ function experience:GetValues(_, unit)
 	local level = UnitLevel(unit)
 	local rested = GetXPExhaustion() or 0
 
-	return value, 0, max, level, 'experience', rested
+	return value, max, level, 'experience', rested
 end
 
 ---@param element Progress
 ---@param value integer
----@param _ integer
 ---@param max integer
+---@param _ string
 ---@param rest any[]
-function experience:PostUpdate(element, value, _, max, _, rest)
+function experience:PostUpdate(element, value, max, _, rest)
 	local rested = rest[2]
 	local missingXp = max - value
 	if (rested > missingXp) then
@@ -78,7 +77,7 @@ end
 ---@param _ integer
 ---@param _ integer
 ---@param rest any[]
-function experience:UpdateColor(element, _, _, _, _, rest)
+function experience:UpdateColor(element, _, _, _, rest)
 	local rested = rest[2]
 
 	if (rested > 0) then
@@ -92,7 +91,7 @@ end
 
 ---@param element Progress
 function experience:UpdateTooltip(element)
-	local value, _, max, level, _, rested = self:GetValues(element, element.__owner.unit)
+	local value, max, level, _, rested = self:GetValues(element, element.__owner.unit)
 	local exhaustionStateID, exhaustionStateName, exhaustionStateMultiplier = GetRestState()
 	local exhaustionCooldown = GetTimeToWellRested()
 

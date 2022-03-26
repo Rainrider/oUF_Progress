@@ -17,7 +17,6 @@ reputation.status = {}
 ---@param _ Progress
 ---@param unit WowUnit
 ---@return integer value
----@return integer min
 ---@return integer max
 ---@return integer standingId
 ---@return integer factionId
@@ -57,7 +56,7 @@ function reputation:GetValues(_, unit)
 		value, max = 1, 1
 	end
 
-	return value, 0, max, standingId, factionId, standingText, name, hasPendingReward
+	return value, max, standingId, factionId, standingText, name, hasPendingReward
 end
 
 ---@param element Progress
@@ -85,9 +84,8 @@ end
 ---@param element Progress
 ---@param _ integer
 ---@param _ integer
----@param _ integer
 ---@param standingId integer
-function reputation:UpdateColor(element, _, _, _, standingId)
+function reputation:UpdateColor(element, _, _, standingId)
 	local color = element.__owner.colors.reaction[math.min(standingId, MAX_REPUTATION_REACTION + 1)]
 
 	if (color) then
@@ -97,7 +95,7 @@ end
 
 ---@param element Progress
 function reputation:UpdateTooltip(element)
-	local value, _, max, standingId, factionId, standingText, name, hasPendingReward = self:GetValues(element, 'player')
+	local value, max, standingId, factionId, standingText, name, hasPendingReward = self:GetValues(element, 'player')
 	local rewardAtlas = hasPendingReward and ' |A:ParagonReputation_Bag:0:0:0:0|a' or ''
 	local _, description = GetFactionInfoByID(factionId)
 	local currentRank, maxRank = GetFriendshipReputationRanks(factionId)

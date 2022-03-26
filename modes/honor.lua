@@ -20,7 +20,6 @@ honor.visibilityEvents = {
 ---@param _ Progress
 ---@param unit WowUnit
 ---@return integer value
----@return integer min
 ---@return integer max
 ---@return integer level
 ---@return string barId
@@ -29,7 +28,7 @@ function honor:GetValues(_, unit)
 	local max = UnitHonorMax(unit)
 	local level = UnitHonorLevel(unit)
 
-	return value, 0, max, level, 'honor'
+	return value, max, level, 'honor'
 end
 
 function honor:OnMouseUp()
@@ -38,7 +37,7 @@ end
 
 ---@param element Progress
 function honor:UpdateTooltip(element)
-	local value, _, max, level = self:GetValues(element, element.__owner.unit)
+	local value, max, level = self:GetValues(element, element.__owner.unit)
 
 	GameTooltip:SetText(
 		('%s (%s)'):format(_G.HONOR, _G.UNIT_LEVEL_TEMPLATE:format(level)),

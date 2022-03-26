@@ -38,7 +38,6 @@ local function GetAvailablePoints(spentPoints, unspentPower, tier)
 end
 
 ---@return integer @artifact power
----@return integer @min
 ---@return integer @max
 ---@return integer @artifact level
 ---@return integer @artifact item id
@@ -49,7 +48,7 @@ function artifact:GetValues()
 	local itemId, _, name, _, unspentPower, spentPoints, _, _, _, _, _, _, tier = C_ArtifactUI.GetEquippedArtifactInfo()
 	local availablePoints, power, threshold = GetAvailablePoints(spentPoints, unspentPower, tier)
 
-	return power, 0, threshold, spentPoints + availablePoints, itemId, name, unspentPower, availablePoints
+	return power, threshold, spentPoints + availablePoints, itemId, name, unspentPower, availablePoints
 end
 
 function artifact:OnMouseUp()
@@ -61,7 +60,7 @@ function artifact:OnMouseUp()
 end
 
 function artifact:UpdateTooltip()
-	local value, _, max, _, _, name, unspentPower, availablePoints = self:GetValues()
+	local value, max, _, _, name, unspentPower, availablePoints = self:GetValues()
 
 	GameTooltip:SetText(name, _G.HIGHLIGHT_FONT_COLOR:GetRGB())
 	GameTooltip:AddLine(

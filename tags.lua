@@ -10,7 +10,7 @@ tags['progress:reps'] = function ()
 	local element = _FRAME.Progress
 	local mode = element.mode
 	local status = mode.status
-	local value, _, max, level, barId = mode:GetValues(element, 'player')
+	local value, max, level, barId = mode:GetValues(element, 'player')
 
 	if (status.barId ~= barId) then
 		status.barId = barId

@@ -5,17 +5,15 @@ ns = ns.__Progress
 local Path
 
 ---@param value integer
----@param min integer
 ---@param max integer
 ---@param level integer
 ---@vararg any
 ---@return integer @The current bar value
----@return integer @The minimum bar value
 ---@return integer @The maximum bar value
 ---@return integer @The current level
 ---@return table @The rest of passed arguments
-local function extract(value, min, max, level, ...)
-	return value, min, max, level, {...}
+local function extract(value, max, level, ...)
+	return value, max, level, {...}
 end
 
 local function printWarning()
@@ -36,28 +34,28 @@ local function Update(frame, event, unit)
 	if (not mode) then return end
 
 	if (element.PreUpdate) then
-		element:PreUpdate(unit)
+		element:PreUpdate()
 	end
 
-	local value, min, max, level, rest = extract(mode:GetValues(event, unit))
+	local value, max, level, rest = extract(mode:GetValues(event, unit))
 
 	if (element.SetAnimatedValues) then
 		element:SetAnimatedValues(value, 0, max, level)
 	else
-		element:SetMinMaxValues(min, max)
+		element:SetMinMaxValues(0, max)
 		element:SetValue(value)
 	end
 
 	if (mode.UpdateColor) then
-		mode:UpdateColor(element, value, min, max, level, rest)
+		mode:UpdateColor(element, value, max, level, rest)
 	end
 
 	if (mode.PostUpdate) then
-		mode:PostUpdate(element, value, min, max, level, rest)
+		mode:PostUpdate(element, value, max, level, rest)
 	end
 
 	if (element.PostUpdate) then
-		element:PostUpdate(value, min, max, level, rest)
+		element:PostUpdate(value, max, level, rest)
 	end
 end
 

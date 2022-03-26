@@ -24,7 +24,6 @@ function azerite:CancelItemLoadCallback()
 end
 
 ---@return integer @azerite power
----@return integer @min
 ---@return integer @max
 ---@return integer @azerite level
 ---@return integer @item id of Hearth of Azeroth
@@ -34,7 +33,7 @@ function azerite:GetValues()
 	local value, max = C_AzeriteItem.GetAzeriteItemXPInfo(azeriteItemLocation)
 	local level = C_AzeriteItem.GetPowerLevel(azeriteItemLocation)
 
-	return value, 0, max, level, 158075, azeriteItemLocation
+	return value, max, level, 158075, azeriteItemLocation
 end
 
 function azerite:OnMouseUp()
@@ -52,7 +51,7 @@ function azerite:OnMouseUp()
 end
 
 function azerite:UpdateTooltip()
-	local value, _, max, level, _, azeriteItemLocation = self:GetValues()
+	local value, max, level, _, azeriteItemLocation = self:GetValues()
 	local azeriteItem = Item:CreateFromItemLocation(azeriteItemLocation)
 
 	self.itemDataLoadedCancelFunc = azeriteItem:ContinueWithCancelOnItemLoad(function ()
