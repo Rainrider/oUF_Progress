@@ -26,9 +26,11 @@
 ---@field defaultMode? ModeName
 ---@field infoText? FontString
 ---@field modes Mode[]
----@field tooltipAnchor TooltipAnchor
----@field inAlpha number
----@field outAlpha number
+---@field tooltipAnchor? TooltipAnchor
+---@field inAlpha? number
+---@field outAlpha? number
+---@field Enable? fun(element: Progress)
+---@field Disable? fun(element: Progress)
 
 ---@class Status
 ---@field barId integer|string

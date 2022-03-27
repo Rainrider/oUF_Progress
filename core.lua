@@ -303,6 +303,11 @@ local function Enable(self, unit)
 	element.__owner = self
 	element.modes = ns.modes
 	element.defaultMode = element.defaultMode or 'experience'
+
+	if (element.Enable) then
+		element:Enable()
+	end
+
 	element.SetNextVisibleMode = SetNextVisibleMode
 	element.ForceUpdate = ForceUpdate
 
@@ -343,6 +348,10 @@ local function Disable(self)
 	if (not element) then return end
 
 	ToggleEvents(element, false)
+
+	if (element.Disable) then
+		element:Disable()
+	end
 end
 
 oUF:AddElement('Progress', Visibility, Enable, Disable)
