@@ -79,8 +79,10 @@ function artifact:UpdateTooltip()
 	)
 end
 
----@return boolean
-function artifact:Visibility()
+---@return boolean?
+function artifact:Visibility(_, slot)
+	if (slot and slot ~= _G.INVSLOT_MAINHAND) then return end
+
 	return HasArtifactEquipped()
 		and not C_ArtifactUI.IsEquippedArtifactMaxed()
 		and not C_ArtifactUI.IsEquippedArtifactDisabled()

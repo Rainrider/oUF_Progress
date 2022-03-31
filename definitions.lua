@@ -117,8 +117,9 @@ function Mode:UpdateTooltip(element) end
 ---Called to deside on whether the mode should become or stay visible.
 ---If `Mode#visibilityEvents` is not empty, this method will be called from
 ---the event handler and `true` will activate inactive modes while `false`
----will deactive active ones.
+---will deactive active ones. A `nil` return means that the current call should
+---be discarded.
 ---@param event WowEvent
 ---@vararg any @The rest of the event arguments
----@return boolean
+---@return boolean?
 function Mode:Visibility(event, ...) end

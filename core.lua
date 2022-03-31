@@ -279,7 +279,10 @@ local function initVisibilityHandlers(element)
 
 		for event, isUnitless in next, mode.visibilityEvents or {} do
 			local handler = function(_, evt, ...)
-				SetNextVisibleMode(element, mode, mode:Visibility(evt, ...))
+				local shouldBeVisible = mode:Visibility(evt, ...)
+				if (shouldBeVisible ~= nil) then
+					SetNextVisibleMode(element, mode, shouldBeVisible)
+				end
 			end
 
 			element.__owner:RegisterEvent(event, handler, isUnitless)

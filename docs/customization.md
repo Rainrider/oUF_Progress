@@ -92,7 +92,9 @@ A progress mode must provide only two methods:
 - `mode:Visibility(event, ...)`  
   Must return a boolean to indicate if the mode should become active or inactive.
   This method is called after the user has clicked on the element to cycle to the
-  next mode or when one of the mode's visibility events has been triggered.
+  next mode or when one of the mode's visibility events has been triggered. If
+  `nil` is returned, then the current call should be discarded. This is useful
+  when multiple modes listen to the same event.
 
 Further, a mode has the following attributes:
 

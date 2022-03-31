@@ -65,8 +65,10 @@ function azerite:UpdateTooltip()
 	end)
 end
 
----@return boolean
-function azerite:Visibility()
+---@return boolean?
+function azerite:Visibility(_, slot)
+	if (slot and slot ~= _G.INVSLOT_NECK) then return end
+
 	local isMaxLevel = C_AzeriteItem.IsAzeriteItemAtMaxLevel()
 
 	if (isMaxLevel) then return false end
