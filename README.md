@@ -19,8 +19,8 @@ It requires an oUF layout that supports it.
 - `OnMouseUp` handlers per mode (left click is reserved for mode switching)
   - artifact toggles the Artifact UI
   - azerite toggles the Azerite Essence UI
-  - honor toggle the PvP UI
-  - reputation toggle the reputation tab of the character panel
+  - honor toggles the PvP UI
+  - reputation toggles the reputation tab of the character panel
 - tags (`[progress:missing][ ($>progress:reps<$)]` is the current default)
   - `[progress:delta]` - shows the last gain/loss for the currently displayed mode
   - `[progress:missing]` - shows the amount needed to reach the next standing for 
@@ -56,6 +56,10 @@ self.Progress = progress
 ```
 
 For further customization see [docs/customization](https://github.com/Rainrider/oUF_Progress/blob/main/docs/customization.md).
+
+## Issues
+
+If you have any problems, feel free to [open an issue at Github](https://github.com/Rainrider/oUF_Progress/issues).
 
 ## License
 
