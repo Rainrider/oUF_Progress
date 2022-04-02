@@ -5,6 +5,9 @@
 ## Notes: Progress bar for oUF layouts
 ## RequiredDeps: oUF
 
+## X-Curse-Project-ID: 605205
+## X-Wago-ID: XrNkk3Na
+
 init.lua
 tags.lua
 modes/artifact.lua

@@ -1,0 +1,10 @@
+package-as: oUF_Progress
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
+
+ignore:
+  - docs
+  - definitions.lua
+  - README.md
