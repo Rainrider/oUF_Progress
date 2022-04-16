@@ -20,7 +20,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --check .
       - name: Lint
-        uses: nebularg/actions-luacheck@v1
+        uses: Rainrider/actions-luacheck@fix-groups
         with:
           annotate: warning
           args: --no-color
