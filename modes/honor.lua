@@ -45,13 +45,10 @@ function honor:UpdateTooltip(element)
 	)
 	GameTooltip:AddLine(_G.LIFETIME_HONOR_DESC)
 	GameTooltip:AddLine(
-		string.format(
-			'%s / %s (%d%%)',
-			BreakUpLargeNumbers(value),
-			BreakUpLargeNumbers(max),
-			value / max * 100 + 0.5
-		),
-		1, 1, 1
+		string.format('%s / %s (%d%%)', BreakUpLargeNumbers(value), BreakUpLargeNumbers(max), value / max * 100 + 0.5),
+		1,
+		1,
+		1
 	)
 end
 

@@ -5,14 +5,14 @@ ns = ns.__Progress
 local tags = {}
 ns.tags = tags
 
-tags['progress:reps'] = function ()
+tags['progress:reps'] = function()
 	---@type Progress
 	local element = _FRAME.Progress
 	local mode = element.mode
 	local status = mode.status
 	local value, max, level, barId = mode:GetValues(element, 'player')
 
-	if (status.barId ~= barId) then
+	if status.barId ~= barId then
 		status.barId = barId
 		status.value = value
 		status.max = max
@@ -25,18 +25,22 @@ tags['progress:reps'] = function ()
 
 	local delta = value - status.value
 
-	if (level > status.level) then
+	if level > status.level then
 		delta = delta + status.max
 		status.max = max
 		status.level = level
-	elseif (level < status.level) then
+	elseif level < status.level then
 		delta = delta - max
 		status.max = max
 		status.level = level
 	end
 
-	if (delta == 0) then delta = status.delta end
-	if (delta == 0) then return '' end
+	if delta == 0 then
+		delta = status.delta
+	end
+	if delta == 0 then
+		return ''
+	end
 
 	local remaining = delta > 0 and max - value or value
 
@@ -46,7 +50,7 @@ tags['progress:reps'] = function ()
 	return ('%d'):format(remaining / math.abs(delta) + 0.9)
 end
 
-tags['progress:delta'] = function ()
+tags['progress:delta'] = function()
 	-- populate status
 	_TAGS['progress:reps']()
 
@@ -57,7 +61,7 @@ tags['progress:delta'] = function ()
 	return status.delta ~= 0 and ('%+d'):format(status.delta) or ''
 end
 
-tags['progress:missing'] = function ()
+tags['progress:missing'] = function()
 	-- populate status
 	_TAGS['progress:reps']()
 

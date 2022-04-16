@@ -23,7 +23,7 @@ artifact.visibilityEvents = {
 ---@return integer
 ---@return integer
 local function GetAvailablePoints(spentPoints, unspentPower, tier)
-	local availablePoints = 0;
+	local availablePoints = 0
 	local threshold = C_ArtifactUI.GetCostForPointAtRank(spentPoints, tier)
 
 	while unspentPower >= threshold and threshold > 0 do
@@ -52,7 +52,7 @@ function artifact:GetValues()
 end
 
 function artifact:OnMouseUp()
-	if (not _G.ArtifactFrame or not _G.ArtifactFrame:IsShown()) then
+	if not _G.ArtifactFrame or not _G.ArtifactFrame:IsShown() then
 		SocketInventoryItem(_G.INVSLOT_MAINHAND)
 	else
 		HideUIPanel(_G.ArtifactFrame)
@@ -69,19 +69,19 @@ function artifact:UpdateTooltip()
 			BreakUpLargeNumbers(value, true),
 			BreakUpLargeNumbers(max, true)
 		),
-		nil, nil, nil,
+		nil,
+		nil,
+		nil,
 		true
 	)
-	GameTooltip:AddLine(
-		_G.ARTIFACT_POWER_TOOLTIP_BODY:format(availablePoints),
-		nil, nil, nil,
-		true
-	)
+	GameTooltip:AddLine(_G.ARTIFACT_POWER_TOOLTIP_BODY:format(availablePoints), nil, nil, nil, true)
 end
 
 ---@return boolean?
 function artifact:Visibility(_, slot)
-	if (slot and slot ~= _G.INVSLOT_MAINHAND) then return end
+	if slot and slot ~= _G.INVSLOT_MAINHAND then
+		return
+	end
 
 	return HasArtifactEquipped()
 		and not C_ArtifactUI.IsEquippedArtifactMaxed()

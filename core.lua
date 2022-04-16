@@ -13,7 +13,7 @@ local Path
 ---@return integer @The current level
 ---@return table @The rest of passed arguments
 local function extract(value, max, level, ...)
-	return value, max, level, {...}
+	return value, max, level, { ... }
 end
 
 local function printWarning()
@@ -25,36 +25,40 @@ end
 ---@param unit WowUnit
 local function Update(frame, event, unit)
 	unit = unit or frame.unit
-	if (unit ~= 'player') then return end
+	if unit ~= 'player' then
+		return
+	end
 
 	---@type Progress
 	local element = frame.Progress
 	local mode = element.mode
 
-	if (not mode) then return end
+	if not mode then
+		return
+	end
 
-	if (element.PreUpdate) then
+	if element.PreUpdate then
 		element:PreUpdate()
 	end
 
 	local value, max, level, rest = extract(mode:GetValues(event, unit))
 
-	if (element.SetAnimatedValues) then
+	if element.SetAnimatedValues then
 		element:SetAnimatedValues(value, 0, max, level)
 	else
 		element:SetMinMaxValues(0, max)
 		element:SetValue(value)
 	end
 
-	if (mode.UpdateColor) then
+	if mode.UpdateColor then
 		mode:UpdateColor(element, value, max, level, rest)
 	end
 
-	if (mode.PostUpdate) then
+	if mode.PostUpdate then
 		mode:PostUpdate(element, value, max, level, rest)
 	end
 
-	if (element.PostUpdate) then
+	if element.PostUpdate then
 		element:PostUpdate(value, max, level, rest)
 	end
 end
@@ -72,7 +76,9 @@ local function ResolveMode(element, modeName)
 end
 
 local function HideInfoText(element)
-	if (not element.infoText) then return end
+	if not element.infoText then
+		return
+	end
 
 	element.__owner:Untag(element.infoText)
 	element.infoText:Hide()
@@ -80,13 +86,15 @@ end
 
 ---@param element Progress
 local function ShowInfoText(element)
-	if (not element.mode.info) then return end
+	if not element.mode.info then
+		return
+	end
 
 	local events = ''
 	local sharedEvents = ''
 
 	for event, isUnitless in next, element.mode.events do
-		if (isUnitless) then
+		if isUnitless then
 			sharedEvents = sharedEvents .. event .. ' '
 		end
 		events = events .. event .. ' '
@@ -106,7 +114,9 @@ end
 ---@param on boolean
 local function ToggleEvents(element, on)
 	local mode = element.mode
-	if (not mode) then return end
+	if not mode then
+		return
+	end
 
 	local frame = element.__owner
 	local Toggle = on and frame.RegisterEvent or frame.UnregisterEvent
@@ -119,7 +129,7 @@ end
 ---@param element Progress
 ---@param mode? Mode
 local function SetMode(element, mode)
-	if (element.mode and element.mode.Deactivate) then
+	if element.mode and element.mode.Deactivate then
 		element.mode:Deactivate(element)
 	end
 
@@ -128,14 +138,14 @@ local function SetMode(element, mode)
 
 	element.mode = mode
 
-	if (not mode) then
+	if not mode then
 		return element:Hide()
 	end
 
 	element:Show()
 	element:SetStatusBarColor(mode.color:GetRGB())
 
-	if (mode.Activate) then
+	if mode.Activate then
 		mode:Activate(element)
 	end
 
@@ -151,7 +161,7 @@ end
 ---@return Mode nextMode
 ---@return integer nextIndex
 local function GetNextMode(element, mode, index)
-	if (not mode and not index) then
+	if not mode and not index then
 		error('Either mode or index must be provided')
 	end
 
@@ -166,24 +176,26 @@ end
 ---@param on boolean
 local function SetNextVisibleMode(element, mode, on)
 	local isCurrentMode = element.mode == mode
-	if (mode and not isCurrentMode) then
-		if (on and mode:Visibility()) then
+	if mode and not isCurrentMode then
+		if on and mode:Visibility() then
 			return SetMode(element, mode)
 		end
 	end
 
 	-- re-showing the current mode ar hiding another one
-	if (mode and on and isCurrentMode or not (on or isCurrentMode)) then return end
+	if mode and on and isCurrentMode or not (on or isCurrentMode) then
+		return
+	end
 
 	local currentMode = element.mode
 	local remainingModes = #element.modes
 	local nextMode, index
 
-	while (remainingModes > 0) do
+	while remainingModes > 0 do
 		nextMode, index = GetNextMode(element, mode, index)
 
-		if (nextMode:Visibility()) then
-			if (nextMode == currentMode) then
+		if nextMode:Visibility() then
+			if nextMode == currentMode then
 				printWarning()
 			end
 
@@ -193,7 +205,7 @@ local function SetNextVisibleMode(element, mode, on)
 		remainingModes = remainingModes - 1
 	end
 
-	if (remainingModes == 0) then
+	if remainingModes == 0 then
 		printWarning()
 		SetMode(element, nil)
 	end
@@ -202,7 +214,7 @@ end
 ---@param element Progress
 local function OnEnter(element)
 	element:SetAlpha(element.inAlpha)
-	if (element.mode.UpdateTooltip) then
+	if element.mode.UpdateTooltip then
 		GameTooltip:SetOwner(element, element.tooltipAnchor)
 		element.mode:UpdateTooltip(element)
 		GameTooltip:Show()
@@ -211,7 +223,7 @@ end
 
 ---@param element Progress
 local function OnLeave(element)
-	if (element.mode and element.mode.CancelItemLoadCallback) then
+	if element.mode and element.mode.CancelItemLoadCallback then
 		element.mode:CancelItemLoadCallback()
 	end
 
@@ -222,20 +234,20 @@ end
 ---@param element Progress
 ---@param button MouseButton
 local function OnMouseUp(element, button)
-	if (button == 'LeftButton') then
+	if button == 'LeftButton' then
 		SetNextVisibleMode(element, element.mode)
-		if (element.mode) then
+		if element.mode then
 			element.mode:UpdateTooltip(element)
 			GameTooltip:Show()
 		end
 	else
-		if (element.mode.OnMouseUp) then
+		if element.mode.OnMouseUp then
 			element.mode:OnMouseUp(element, button)
 		end
 	end
 end
 
-Path = function (frame, ...)
+Path = function(frame, ...)
 	---@type Progress
 	local element = frame.Progress
 
@@ -249,17 +261,17 @@ local function Visibility(frame, event)
 	---@type Progress
 	local element = frame.Progress
 
-	if (UnitHasVehiclePlayerFrameUI('player')) then
+	if UnitHasVehiclePlayerFrameUI('player') then
 		element.Show = element.Hide
 
-		if (element:IsShown()) then
+		if element:IsShown() then
 			ToggleEvents(element, false)
 			element:Hide()
 		end
 	else
 		element.Show = nil
 
-		if (element.mode and not element:IsShown()) then
+		if element.mode and not element:IsShown() then
 			element:Show()
 			ToggleEvents(element, true)
 		end
@@ -276,11 +288,10 @@ end
 ---@param element Progress
 local function initVisibilityHandlers(element)
 	for _, mode in next, element.modes do
-
 		for event, isUnitless in next, mode.visibilityEvents or {} do
 			local handler = function(_, evt, ...)
 				local shouldBeVisible = mode:Visibility(evt, ...)
-				if (shouldBeVisible ~= nil) then
+				if shouldBeVisible ~= nil then
 					SetNextVisibleMode(element, mode, shouldBeVisible)
 				end
 			end
@@ -292,7 +303,7 @@ end
 
 local function callLoaders(element)
 	for _, mode in next, element.modes do
-		if (mode.Load) then
+		if mode.Load then
 			mode:Load(element)
 		end
 	end
@@ -301,13 +312,15 @@ end
 local function Enable(self, unit)
 	---@type Progress
 	local element = self.Progress
-	if (not element or unit ~= 'player') then return end
+	if not element or unit ~= 'player' then
+		return
+	end
 
 	element.__owner = self
 	element.modes = ns.modes
 	element.defaultMode = element.defaultMode or 'experience'
 
-	if (element.Enable) then
+	if element.Enable then
 		element:Enable()
 	end
 
@@ -318,26 +331,26 @@ local function Enable(self, unit)
 	initVisibilityHandlers(element)
 	callLoaders(element)
 
-	if (element:IsMouseEnabled()) then
+	if element:IsMouseEnabled() then
 		element.tooltipAnchor = element.tooltipAnchor or 'ANCHOR_BOTTORIGHT'
 		element.inAlpha = element.inAlpha or 1
 		element.outAlpha = element.outAlpha or 1
 		element:SetAlpha(element.outAlpha)
 
-		if (not element:GetScript('OnEnter')) then
+		if not element:GetScript('OnEnter') then
 			element:SetScript('OnEnter', OnEnter)
 		end
 
-		if (not element:GetScript('OnLeave')) then
+		if not element:GetScript('OnLeave') then
 			element:SetScript('OnLeave', OnLeave)
 		end
 
-		if (not element:GetScript('OnMouseUp')) then
+		if not element:GetScript('OnMouseUp') then
 			element:SetScript('OnMouseUp', OnMouseUp)
 		end
 	end
 
-	if (element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
+	if element:IsObjectType('StatusBar') and not element:GetStatusBarTexture() then
 		element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 	end
 
@@ -348,11 +361,13 @@ end
 
 local function Disable(self)
 	local element = self.Progress
-	if (not element) then return end
+	if not element then
+		return
+	end
 
 	ToggleEvents(element, false)
 
-	if (element.Disable) then
+	if element.Disable then
 		element:Disable()
 	end
 end

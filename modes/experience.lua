@@ -64,7 +64,7 @@ end
 function experience:PostUpdate(element, value, max, _, rest)
 	local rested = rest[2]
 	local missingXp = max - value
-	if (rested > missingXp) then
+	if rested > missingXp then
 		rested = missingXp
 	end
 	local width = element:GetWidth() * rested / max
@@ -80,7 +80,7 @@ end
 function experience:UpdateColor(element, _, _, _, rest)
 	local rested = rest[2]
 
-	if (rested > 0) then
+	if rested > 0 then
 		element:SetStatusBarColor(self.restedColor:GetRGB())
 		element.Rested:SetVertexColor(self.restedColor:GetRGBA())
 	else
@@ -97,15 +97,13 @@ function experience:UpdateTooltip(element)
 
 	GameTooltip:SetText(('%s (%s)'):format(_G.COMBAT_XP_GAIN, _G.UNIT_LEVEL_TEMPLATE:format(level)))
 	GameTooltip:AddLine(
-		('%s / %s (%d%%)'):format(
-			BreakUpLargeNumbers(value),
-			BreakUpLargeNumbers(max),
-			value / max * 100 + 0.5
-		),
-		1, 1, 1
+		('%s / %s (%d%%)'):format(BreakUpLargeNumbers(value), BreakUpLargeNumbers(max), value / max * 100 + 0.5),
+		1,
+		1,
+		1
 	)
 
-	if (rested > 0) then
+	if rested > 0 then
 		local restedText = (': %s (%d%%)'):format(BreakUpLargeNumbers(rested), rested / max * 100 + 0.5)
 
 		GameTooltip:AddLine(' ')
@@ -114,11 +112,11 @@ function experience:UpdateTooltip(element)
 		)
 	end
 
-	if (IsResting()) then
-		if (exhaustionCooldown) then
+	if IsResting() then
+		if exhaustionCooldown then
 			GameTooltip:AddLine(_G.EXHAUST_TOOLTIP4:format(exhaustionCooldown / 60))
 		end
-	elseif (exhaustionStateID == 4 or exhaustionStateID == 5) then
+	elseif exhaustionStateID == 4 or exhaustionStateID == 5 then
 		GameTooltip:AddLine(_G.EXHAUST_TOOLTIP2)
 	end
 end
@@ -127,7 +125,7 @@ end
 function experience:Visibility()
 	local maxLevel = GetRestrictedAccountData()
 
-	if (maxLevel == 0) then
+	if maxLevel == 0 then
 		maxLevel = GetMaxLevelForPlayerExpansion()
 	end
 

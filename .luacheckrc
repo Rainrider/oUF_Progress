@@ -8,13 +8,13 @@ ignore = {
 	'212/self', -- unused argument self
 }
 
-files['definitions.lua'] = {ignore = {'212', '241'}}
+files['definitions.lua'] = { ignore = { '212', '241' } }
 
 read_globals = {
 	'debugstack',
 	'geterrorhandler',
-	string = {fields = {'join', 'split', 'trim'}},
-	table = {fields = {'removemulti', 'wipe'}},
+	string = { fields = { 'join', 'split', 'trim' } },
+	table = { fields = { 'removemulti', 'wipe' } },
 
 	-- FrameXML
 	'GameTooltip',
@@ -30,7 +30,7 @@ read_globals = {
 		},
 	},
 	C_AzeriteEssence = {
-		fields = {'CanOpenUI'},
+		fields = { 'CanOpenUI' },
 	},
 	C_AzeriteItem = {
 		fields = {
@@ -41,15 +41,15 @@ read_globals = {
 			'IsAzeriteItemEnabled',
 		},
 	},
-	C_Reputation = {fields = {'GetFactionParagonInfo'}},
+	C_Reputation = { fields = { 'GetFactionParagonInfo' } },
 	C_PvP = {
 		fields = {
 			'GetNextHonorLevelForReward',
 			'IsActiveBattlefield',
 		},
 	},
-	C_Timer = {fields = {'After'}},
-	Item = {fields = {'CreateFromItemLocation'}},
+	C_Timer = { fields = { 'After' } },
+	Item = { fields = { 'CreateFromItemLocation' } },
 
 	-- Mixins
 	'CallbackRegistryMixin',
@@ -92,6 +92,6 @@ read_globals = {
 
 globals = {
 	-- oUF custom env for tags
-	_FRAME = {fields = {'Progress'}},
+	_FRAME = { fields = { 'Progress' } },
 	'_TAGS',
 }

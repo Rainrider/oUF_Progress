@@ -5,5 +5,5 @@ ns.__Progress.modes = {}
 
 local CallbackRegistry = CreateFromMixins(CallbackRegistryMixin)
 CallbackRegistry:OnLoad()
-CallbackRegistry:GenerateCallbackEvents({'OnVisibilityChanged'})
+CallbackRegistry:GenerateCallbackEvents({ 'OnVisibilityChanged' })
 ns.__Progress.CallbackRegistry = CallbackRegistry

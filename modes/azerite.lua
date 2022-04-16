@@ -18,8 +18,8 @@ azerite.visibilityEvents = {
 
 function azerite:CancelItemLoadCallback()
 	if self.itemDataLoadedCancelFunc then
-		self.itemDataLoadedCancelFunc();
-		self.itemDataLoadedCancelFunc = nil;
+		self.itemDataLoadedCancelFunc()
+		self.itemDataLoadedCancelFunc = nil
 	end
 end
 
@@ -37,13 +37,15 @@ function azerite:GetValues()
 end
 
 function azerite:OnMouseUp()
-	if (not C_AzeriteEssence.CanOpenUI()) then return end
+	if not C_AzeriteEssence.CanOpenUI() then
+		return
+	end
 
-	if (not _G.AzeriteEssenceUI) then
+	if not _G.AzeriteEssenceUI then
 		UIParentLoadAddOn('Blizzard_AzeriteEssenceUI')
 	end
 
-	if (not _G.AzeriteEssenceUI:IsShown()) then
+	if not _G.AzeriteEssenceUI:IsShown() then
 		ShowUIPanel(_G.AzeriteEssenceUI)
 	else
 		HideUIPanel(_G.AzeriteEssenceUI)
@@ -54,24 +56,25 @@ function azerite:UpdateTooltip()
 	local value, max, level, _, azeriteItemLocation = self:GetValues()
 	local azeriteItem = Item:CreateFromItemLocation(azeriteItemLocation)
 
-	self.itemDataLoadedCancelFunc = azeriteItem:ContinueWithCancelOnItemLoad(function ()
+	self.itemDataLoadedCancelFunc = azeriteItem:ContinueWithCancelOnItemLoad(function()
 		local name = azeriteItem:GetItemName()
 
-		GameTooltip:SetText(
-			_G.AZERITE_POWER_TOOLTIP_TITLE:format(level, max - value),
-			_G.HIGHLIGHT_FONT_COLOR:GetRGB()
-		)
+		GameTooltip:SetText(_G.AZERITE_POWER_TOOLTIP_TITLE:format(level, max - value), _G.HIGHLIGHT_FONT_COLOR:GetRGB())
 		GameTooltip:AddLine(_G.AZERITE_POWER_TOOLTIP_BODY:format(name))
 	end)
 end
 
 ---@return boolean?
 function azerite:Visibility(_, slot)
-	if (slot and slot ~= _G.INVSLOT_NECK) then return end
+	if slot and slot ~= _G.INVSLOT_NECK then
+		return
+	end
 
 	local isMaxLevel = C_AzeriteItem.IsAzeriteItemAtMaxLevel()
 
-	if (isMaxLevel) then return false end
+	if isMaxLevel then
+		return false
+	end
 
 	local azeriteItemLocation = C_AzeriteItem.FindActiveAzeriteItem()
 
