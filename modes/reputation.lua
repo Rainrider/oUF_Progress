@@ -25,14 +25,16 @@ reputation.status = {}
 ---@return boolean hasPendingReward
 function reputation:GetValues(_, unit)
 	local name, standingId, min, max, value, factionId = GetWatchedFactionInfo()
-	local friendId, _, _, _, _, _, standingText, _, nextThreshold = GetFriendshipReputation(factionId)
+	local friendshipInfo = C_GossipInfo.GetFriendshipReputation(factionId)
 	local hasPendingReward = false
+	local standingText = nil
 
-	if friendId then
-		if not nextThreshold then
+	if friendshipInfo.friendshipFactionID == factionId then
+		if not friendshipInfo.nextThreshold then
 			min, max, value = 0, 1, 1 -- force full bar when maxed out
 		end
 		standingId = 5 -- force friend color
+		standingText = friendshipInfo.text
 	else
 		local paragonValue, threshold, _, rewardPending = C_Reputation.GetFactionParagonInfo(factionId)
 		if paragonValue then
@@ -98,7 +100,9 @@ function reputation:UpdateTooltip(element)
 	local value, max, standingId, factionId, standingText, name, hasPendingReward = self:GetValues(element, 'player')
 	local rewardAtlas = hasPendingReward and ' |A:ParagonReputation_Bag:0:0:0:0|a' or ''
 	local _, description = GetFactionInfoByID(factionId)
-	local currentRank, maxRank = GetFriendshipReputationRanks(factionId)
+	local rankInfo = C_GossipInfo.GetFriendshipReputationRanks(factionId)
+	local currentRank = rankInfo and rankInfo.currentLevel
+	local maxRank = rankInfo and rankInfo.maxLevel
 	local rankText
 	if currentRank and maxRank and currentRank > 0 and maxRank > 0 then
 		rankText = (' (%s / %s)'):format(currentRank, maxRank)

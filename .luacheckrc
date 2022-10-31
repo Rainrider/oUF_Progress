@@ -41,13 +41,14 @@ read_globals = {
 			'IsAzeriteItemEnabled',
 		},
 	},
-	C_Reputation = { fields = { 'GetFactionParagonInfo' } },
+	C_GossipInfo = { fields = { 'GetFriendshipReputation', 'GetFriendshipReputationRanks' } }
 	C_PvP = {
 		fields = {
 			'GetNextHonorLevelForReward',
 			'IsActiveBattlefield',
 		},
 	},
+	C_Reputation = { fields = { 'GetFactionParagonInfo' } },
 	C_Timer = { fields = { 'After' } },
 	Item = { fields = { 'CreateFromItemLocation' } },
 
@@ -61,8 +62,6 @@ read_globals = {
 	'CreateFrame',
 	'CreateFromMixins',
 	'GetFactionInfoByID',
-	'GetFriendshipReputation',
-	'GetFriendshipReputationRanks',
 	'GetMaxLevelForPlayerExpansion',
 	'GetRestrictedAccountData',
 	'GetRestState',
