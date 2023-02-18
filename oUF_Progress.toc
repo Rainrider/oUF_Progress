@@ -10,6 +10,7 @@
 
 init.lua
 tags.lua
+localization.lua
 modes/artifact.lua
 modes/azerite.lua
 modes/experience.lua

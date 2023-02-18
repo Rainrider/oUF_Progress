@@ -1,6 +1,7 @@
 local _, ns = ...
 ns = ns.__Progress
 
+local L = ns.L
 local MAX_REPUTATION_REACTION = _G.MAX_REPUTATION_REACTION
 
 ---@type Mode
@@ -49,7 +50,7 @@ function reputation:GetValues(_, unit)
 			min = 0
 			max = threshold
 			standingId = MAX_REPUTATION_REACTION + math.ceil(paragonValue / threshold)
-			standingText = _G.PARAGON
+			standingText = L.Paragon
 			hasPendingReward = rewardPending
 		end
 	end
@@ -95,7 +96,7 @@ end
 ---@param _ integer
 ---@param standingId integer
 function reputation:UpdateColor(element, _, _, standingId)
-	local color = element.__owner.colors.reaction[standingId] or CreateColor(0, 0.5, 0.9)
+    local color = element.__owner.colors.reaction[standingId] or CreateColor(0, 0.5, 0.9)
 
 	element:SetStatusBarColor(color:GetRGB())
 end
