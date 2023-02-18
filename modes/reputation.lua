@@ -27,7 +27,7 @@ reputation.status = {}
 function reputation:GetValues(_, unit)
 	local name, standingId, min, max, value, factionId = GetWatchedFactionInfo()
 	local renown = C_MajorFactions.GetMajorFactionData(factionId)
-	local friendshipInfo = C_GossipInfo.GetFriendshipReputation(factionId)
+	local friendship = C_GossipInfo.GetFriendshipReputation(factionId)
 	local hasPendingReward = false
 	local standingText = nil
 
@@ -37,12 +37,12 @@ function reputation:GetValues(_, unit)
 		max = renown.renownLevelThreshold
 		standingId = MAX_REPUTATION_REACTION + renown.renownLevel -- force paragon color
 		standingText = _G.MAJOR_FACTION_RENOWN_LEVEL_TOAST:format(renown.renownLevel)
-	elseif friendshipInfo.friendshipFactionID == factionId then
-		if not friendshipInfo.nextThreshold then
-			min, max, value = 0, 1, 1 -- force full bar when maxed out
-		end
+	elseif friendship and friendship.friendshipFactionID == factionId then
+		min = friendship.reactionThreshold
+		value = friendship.standing
+		max = friendship.nextThreshold or friendship.standing
 		standingId = 5 -- force friend color
-		standingText = friendshipInfo.text
+		standingText = friendship.reaction
 	else
 		local paragonValue, threshold, _, rewardPending = C_Reputation.GetFactionParagonInfo(factionId)
 		if paragonValue then
