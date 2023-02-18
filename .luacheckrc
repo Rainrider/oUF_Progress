@@ -41,7 +41,8 @@ read_globals = {
 			'IsAzeriteItemEnabled',
 		},
 	},
-	C_GossipInfo = { fields = { 'GetFriendshipReputation', 'GetFriendshipReputationRanks' } },
+    C_GossipInfo = { fields = { 'GetFriendshipReputation', 'GetFriendshipReputationRanks' } },
+	C_MajorFactions = { fields = { 'GetMajorFactionData' } },
 	C_PvP = {
 		fields = {
 			'GetNextHonorLevelForReward',

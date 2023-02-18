@@ -25,11 +25,18 @@ reputation.status = {}
 ---@return boolean hasPendingReward
 function reputation:GetValues(_, unit)
 	local name, standingId, min, max, value, factionId = GetWatchedFactionInfo()
+	local renown = C_MajorFactions.GetMajorFactionData(factionId)
 	local friendshipInfo = C_GossipInfo.GetFriendshipReputation(factionId)
 	local hasPendingReward = false
 	local standingText = nil
 
-	if friendshipInfo.friendshipFactionID == factionId then
+	if renown then
+		min = 0
+		value = renown.renownReputationEarned
+		max = renown.renownLevelThreshold
+		standingId = MAX_REPUTATION_REACTION + renown.renownLevel -- force paragon color
+		standingText = _G.MAJOR_FACTION_RENOWN_LEVEL_TOAST:format(renown.renownLevel)
+	elseif friendshipInfo.friendshipFactionID == factionId then
 		if not friendshipInfo.nextThreshold then
 			min, max, value = 0, 1, 1 -- force full bar when maxed out
 		end
@@ -88,11 +95,9 @@ end
 ---@param _ integer
 ---@param standingId integer
 function reputation:UpdateColor(element, _, _, standingId)
-	local color = element.__owner.colors.reaction[math.min(standingId, MAX_REPUTATION_REACTION + 1)]
+	local color = element.__owner.colors.reaction[standingId] or CreateColor(0, 0.5, 0.9)
 
-	if color then
-		element:SetStatusBarColor(color[1], color[2], color[3])
-	end
+	element:SetStatusBarColor(color:GetRGB())
 end
 
 ---@param element Progress
@@ -107,9 +112,9 @@ function reputation:UpdateTooltip(element)
 	if currentRank and maxRank and currentRank > 0 and maxRank > 0 then
 		rankText = (' (%s / %s)'):format(currentRank, maxRank)
 	end
-	local color = element.__owner.colors.reaction[math.min(standingId, MAX_REPUTATION_REACTION + 1)]
+	local color = element.__owner.colors.reaction[standingId] or CreateColor(0, 0.5, 0.9)
 
-	GameTooltip:SetText(('%s%s'):format(name, rewardAtlas), color[1], color[2], color[3])
+	GameTooltip:SetText(('%s%s'):format(name, rewardAtlas), color:GetRGB())
 	GameTooltip:AddLine(description, nil, nil, nil, true)
 	if rankText then
 		GameTooltip:AddLine(_G.RANK .. rankText, 1, 1, 1)
