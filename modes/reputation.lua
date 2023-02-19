@@ -96,7 +96,7 @@ end
 ---@param _ integer
 ---@param standingId integer
 function reputation:UpdateColor(element, _, _, standingId)
-    local color = element.__owner.colors.reaction[standingId] or CreateColor(0, 0.5, 0.9)
+	local color = element.__owner.colors.reaction[standingId] or CreateColor(0, 0.5, 0.9)
 
 	element:SetStatusBarColor(color:GetRGB())
 end

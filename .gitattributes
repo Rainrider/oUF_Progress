@@ -1,0 +1,4 @@
+[attr]source    text whitespace=space-before-tab,trailing-space
+
+*.lua   source
+*.toc   source
