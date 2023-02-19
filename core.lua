@@ -91,18 +91,16 @@ local function ShowInfoText(element)
 	end
 
 	local events = ''
-	local sharedEvents = ''
 
 	for event, isUnitless in next, element.mode.events do
 		if isUnitless then
-			sharedEvents = sharedEvents .. event .. ' '
+			oUF.Tags.SharedEvents[event] = true
 		end
 		events = events .. event .. ' '
 	end
 
 	for tag in next, ns.tags do
 		oUF.Tags.Events[tag] = events ~= '' and events or nil
-		oUF.Tags.SharedEvents[tag] = sharedEvents ~= '' and sharedEvents or nil
 	end
 
 	element.infoText:Show()
