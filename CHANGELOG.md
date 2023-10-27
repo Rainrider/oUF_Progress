@@ -1,6 +1,13 @@
-##  (2023-02-20)
+##  (2023-10-27)
 
-## [1.1.0](https://github.com/Rainrider/oUF_Progress/compare/1.0.2...1.1.0) (2023-02-19)
+## [1.1.1](https://github.com/Rainrider/oUF_Progress/compare/1.1.0...1.1.1) (2023-10-27)
+
+
+### Bug Fixes
+
+* **reputation:** account for paragon renown ([c640c1d](https://github.com/Rainrider/oUF_Progress/commit/c640c1d36054d12d4b5b6dfb8f99cf55a8564b74))
+
+## [1.1.0](https://github.com/Rainrider/oUF_Progress/compare/1.0.2...1.1.0) (2023-02-20)
 
 
 ### Features
@@ -14,7 +21,7 @@
 * **reputation:** add paragon translations ([6a5957e](https://github.com/Rainrider/oUF_Progress/commit/6a5957ed4df0b780885c79816288e79a737cc3fa))
 * **reputation:** update friendships for Dragonflight ([de501c7](https://github.com/Rainrider/oUF_Progress/commit/de501c70fc6ad36390d12904a2e7577a9242019d))
 
-### [1.0.2](https://github.com/Rainrider/oUF_Progress/compare/1.0.1...1.0.2) (2022-10-31)
+## [1.0.2](https://github.com/Rainrider/oUF_Progress/compare/1.0.1...1.0.2) (2022-10-31)
 
 
 ### Bug Fixes
@@ -22,7 +29,7 @@
 * **reputation:** use Dragonflight friendship api ([e63f7e0](https://github.com/Rainrider/oUF_Progress/commit/e63f7e04786eb4d49ed36c884b5b4ef4906d0dcd))
 * syntax error ([81ee1d5](https://github.com/Rainrider/oUF_Progress/commit/81ee1d5b035fd2ebea3b9c05b7ce3430256ff463))
 
-### [1.0.1](https://github.com/Rainrider/oUF_Progress/compare/1.0.0...1.0.1) (2022-04-02)
+## [1.0.1](https://github.com/Rainrider/oUF_Progress/compare/1.0.0...1.0.1) (2022-04-02)
 
 ## [1.0.0](https://github.com/Rainrider/oUF_Progress/compare/303e445c279a23427cd866334932df43eb0eecf4...1.0.0) (2022-04-02)
 
