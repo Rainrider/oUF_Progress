@@ -42,7 +42,7 @@ read_globals = {
 		},
 	},
     C_GossipInfo = { fields = { 'GetFriendshipReputation', 'GetFriendshipReputationRanks' } },
-	C_MajorFactions = { fields = { 'GetMajorFactionData' } },
+	C_MajorFactions = { fields = { 'GetMajorFactionData', 'HasMaximumRenown' } },
 	C_PvP = {
 		fields = {
 			'GetNextHonorLevelForReward',

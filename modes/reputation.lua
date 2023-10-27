@@ -31,7 +31,7 @@ function reputation:GetValues(_, unit)
 	local hasPendingReward = false
 	local standingText = nil
 
-	if renown then
+	if renown and not C_MajorFactions.HasMaximumRenown(factionId) then
 		min = 0
 		value = renown.renownReputationEarned
 		max = renown.renownLevelThreshold
