@@ -1,4 +1,4 @@
-## Interface: 100005
+## Interface: 100107
 ## Title: oUF Progress
 ## Author: Rainrider
 ## Version: @project-version@
