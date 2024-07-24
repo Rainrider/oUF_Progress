@@ -1,4 +1,11 @@
-##  (2023-10-27)
+##  (2024-07-24)
+
+## [1.1.2](https://github.com/Rainrider/oUF_Progress/compare/1.1.1...1.1.2) (2024-07-24)
+
+
+### Bug Fixes
+
+* **reputation:** update for The War Within ([46d4007](https://github.com/Rainrider/oUF_Progress/commit/46d40076c8d05470d48ce83045d91d0da81271fa))
 
 ## [1.1.1](https://github.com/Rainrider/oUF_Progress/compare/1.1.0...1.1.1) (2023-10-27)
 
