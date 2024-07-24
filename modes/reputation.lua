@@ -25,7 +25,9 @@ reputation.status = {}
 ---@return string name
 ---@return boolean hasPendingReward
 function reputation:GetValues(_, unit)
-	local name, standingId, min, max, value, factionId = GetWatchedFactionInfo()
+	local faction = C_Reputation.GetWatchedFactionData()
+	local standingId, factionId = faction.reaction, faction.factionID
+	local min, max, value = faction.currentReactionThreshold, faction.nextReactionThreshold, faction.currentStanding
 	local renown = C_MajorFactions.GetMajorFactionData(factionId)
 	local friendship = C_GossipInfo.GetFriendshipReputation(factionId)
 	local hasPendingReward = false
@@ -66,25 +68,33 @@ function reputation:GetValues(_, unit)
 		value, max = 1, 1
 	end
 
-	return value, max, standingId, factionId, standingText, name, hasPendingReward
+	return value, max, standingId, factionId, standingText, faction.name, hasPendingReward
 end
 
 ---@param element Progress
 function reputation:Load(element)
+	local function handler()
+		element.__owner:UnregisterEvent('UPDATE_FACTION', handler)
+		ns.CallbackRegistry:TriggerEvent('OnVisibilityChanged', self, self:Visibility())
+	end
+
+	local function hook(id)
+		local isCurrentMode = self == element.mode
+
+		if isCurrentMode and id == 0 then
+			-- avoid race conditions
+			element.__owner:UnregisterEvent('UPDATE_FACTION', handler)
+			ns.CallbackRegistry:TriggerEvent('OnVisibilityChanged', self, false)
+		elseif not isCurrentMode and id > 0 then
+			element.__owner:RegisterEvent('UPDATE_FACTION', handler, true)
+		end
+	end
+
 	-- we do this instead of using FACTION_UPDATE as a visiblity event
 	-- because else the reputation bar will be displayed every time the player
 	-- gains reputation
-	hooksecurefunc('SetWatchedFactionIndex', function(selectedIndex)
-		local isCurrentMode = self == element.mode
-		local function handler()
-			element.__owner:UnregisterEvent('UPDATE_FACTION', handler)
-			ns.CallbackRegistry:TriggerEvent('OnVisibilityChanged', self, self:Visibility())
-		end
-
-		if isCurrentMode and selectedIndex == 0 or not isCurrentMode and selectedIndex > 0 then
-			element.__owner:RegisterEvent('UPDATE_FACTION', handler, true)
-		end
-	end)
+	hooksecurefunc(C_Reputation, 'SetWatchedFactionByIndex', hook)
+	hooksecurefunc(C_Reputation, 'SetWatchedFactionByID', hook)
 end
 
 function reputation:OnMouseUp()
@@ -105,7 +115,7 @@ end
 function reputation:UpdateTooltip(element)
 	local value, max, standingId, factionId, standingText, name, hasPendingReward = self:GetValues(element, 'player')
 	local rewardAtlas = hasPendingReward and ' |A:ParagonReputation_Bag:0:0:0:0|a' or ''
-	local _, description = GetFactionInfoByID(factionId)
+	local faction = C_Reputation.GetFactionDataByID(factionId)
 	local rankInfo = C_GossipInfo.GetFriendshipReputationRanks(factionId)
 	local currentRank = rankInfo and rankInfo.currentLevel
 	local maxRank = rankInfo and rankInfo.maxLevel
@@ -116,7 +126,7 @@ function reputation:UpdateTooltip(element)
 	local color = element.__owner.colors.reaction[standingId] or CreateColor(0, 0.5, 0.9)
 
 	GameTooltip:SetText(('%s%s'):format(name, rewardAtlas), color:GetRGB())
-	GameTooltip:AddLine(description, nil, nil, nil, true)
+	GameTooltip:AddLine(faction.description, nil, nil, nil, true)
 	if rankText then
 		GameTooltip:AddLine(_G.RANK .. rankText, 1, 1, 1)
 	end
@@ -131,7 +141,7 @@ end
 
 ---@return boolean
 function reputation:Visibility()
-	return not not (GetWatchedFactionInfo())
+	return not not (C_Reputation.GetWatchedFactionData())
 end
 
 ns.modes[#ns.modes + 1] = reputation

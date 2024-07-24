@@ -49,7 +49,13 @@ read_globals = {
 			'IsActiveBattlefield',
 		},
 	},
-	C_Reputation = { fields = { 'GetFactionParagonInfo' } },
+	C_Reputation = {
+		fields = {
+			'GetFactionDataByID',
+			'GetFactionParagonInfo',
+			'GetWatchedFactionData',
+		},
+	},
 	C_Timer = { fields = { 'After' } },
 	Item = { fields = { 'CreateFromItemLocation' } },
 
