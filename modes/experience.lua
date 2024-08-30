@@ -93,7 +93,6 @@ end
 function experience:UpdateTooltip(element)
 	local value, max, level, _, rested = self:GetValues(element, element.__owner.unit)
 	local exhaustionStateID, exhaustionStateName, exhaustionStateMultiplier = GetRestState()
-	local exhaustionCooldown = GetTimeToWellRested()
 
 	GameTooltip:SetText(('%s (%s)'):format(_G.COMBAT_XP_GAIN, _G.UNIT_LEVEL_TEMPLATE:format(level)))
 	GameTooltip:AddLine(
@@ -112,11 +111,7 @@ function experience:UpdateTooltip(element)
 		)
 	end
 
-	if IsResting() then
-		if exhaustionCooldown then
-			GameTooltip:AddLine(_G.EXHAUST_TOOLTIP4:format(exhaustionCooldown / 60))
-		end
-	elseif exhaustionStateID == 4 or exhaustionStateID == 5 then
+	if not IsResting() and (exhaustionStateID == 4 or exhaustionStateID == 5) then
 		GameTooltip:AddLine(_G.EXHAUST_TOOLTIP2)
 	end
 end
