@@ -1,4 +1,10 @@
-##  (2024-07-24)
+## [1.1.3](https://github.com/Rainrider/oUF_Progress/compare/1.1.2...1.1.3) (2024-08-30)
+
+
+### Bug Fixes
+
+* remove GetTimeToWellRested ([1b5b9d7](https://github.com/Rainrider/oUF_Progress/commit/1b5b9d775a0795097ccd7989a710ffe3477d195c))
+* stop warning about mods availability ([f2088b9](https://github.com/Rainrider/oUF_Progress/commit/f2088b9223d7450bc1877148edd5f22c50481190))
 
 ## [1.1.2](https://github.com/Rainrider/oUF_Progress/compare/1.1.1...1.1.2) (2024-07-24)
 
