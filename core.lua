@@ -16,10 +16,6 @@ local function extract(value, max, level, ...)
 	return value, max, level, { ... }
 end
 
-local function printWarning()
-	print('|cff0099ccoUF Progress:|r', 'no other visible modes available')
-end
-
 ---@param frame any
 ---@param event WowEvent
 ---@param unit WowUnit
@@ -185,7 +181,6 @@ local function SetNextVisibleMode(element, mode, on)
 		return
 	end
 
-	local currentMode = element.mode
 	local remainingModes = #element.modes
 	local nextMode, index
 
@@ -193,10 +188,6 @@ local function SetNextVisibleMode(element, mode, on)
 		nextMode, index = GetNextMode(element, mode, index)
 
 		if nextMode:Visibility() then
-			if nextMode == currentMode then
-				printWarning()
-			end
-
 			return SetMode(element, nextMode)
 		end
 
@@ -204,7 +195,6 @@ local function SetNextVisibleMode(element, mode, on)
 	end
 
 	if remainingModes == 0 then
-		printWarning()
 		SetMode(element, nil)
 	end
 end
